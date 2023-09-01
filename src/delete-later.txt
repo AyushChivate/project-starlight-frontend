@@ -1,0 +1,53 @@
+import { useState } from 'react'
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
+
+socket.on('connect', () => {
+    console.log(socket.id)
+})
+
+function App() {
+    const [username, setUsername] = useState<string>('')
+    const [room, setRoom] = useState<string>('')
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        console.log(`Name submitted: ${username}`)
+        console.log(`Room submitted: ${room}`)
+        socket.emit('login', username, room)
+    }
+
+    return (
+        <form name="Login" onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="username">Username:</label>
+                <input
+                    type="text"
+                    id="username"
+                    autoComplete="on"
+                    required
+                    value={username}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setUsername(event.target.value)
+                    }}
+                />
+            </div>
+            <div>
+                <label htmlFor="room">Room:</label>
+                <input
+                    type="text"
+                    id="room"
+                    autoComplete="off"
+                    value={room}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setRoom(event.target.value)
+                    }}
+                />
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    )
+}
+
+export default App
