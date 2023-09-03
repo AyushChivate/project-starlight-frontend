@@ -1,22 +1,22 @@
 type LobbyProps = {
-  onToggle: () => void;
-  hasLastPlayerJoined: boolean;
-  isRoomFull: boolean;
-};
+    onToggle: () => void
+    disableStart: boolean
+    isRoomFull: boolean
+}
 
 export default function Lobby({
-  onToggle,
-  hasLastPlayerJoined,
-  isRoomFull,
+    onToggle,
+    disableStart,
+    isRoomFull,
 }: LobbyProps) {
-  return isRoomFull == false ? (
-    <>
-      <h1>Lobby</h1>
-      <button onClick={onToggle} disabled={!hasLastPlayerJoined}>
-        Start Game
-      </button>
-    </>
-  ) : (
-    <h1>Room Full</h1>
-  );
+    return isRoomFull ? (
+        <h1>Room Full</h1>
+    ) : (
+        <>
+            <h1>Lobby</h1>
+            <button onClick={onToggle} disabled={disableStart}>
+                Start Game
+            </button>
+        </>
+    )
 }
